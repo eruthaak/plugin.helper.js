@@ -1,94 +1,94 @@
 # Helper.js
 
-Bu yardımcı dosyası, jQuery tabanlı web projelerinde sık kullanılan form işlemlerini, AJAX davranışlarını, Bootstrap bileşenlerini ve UI yardımcılarını tek bir noktadan yönetmenizi sağlar. Projelerinize eklediğinizde, form verisi toplama, AJAX istekleri, toasts, Select2, DataTables ve Quill tasarımları için hızlı ve standart bir başlangıç altyapısı sunar.
+This helper file lets you manage common form operations, AJAX behaviors, Bootstrap components, and UI utilities in jQuery-based web projects from a single place. When added to your project, it provides a fast and standardized starting infrastructure for collecting form data, sending AJAX requests, displaying toasts, and configuring Select2, DataTables, and Quill components.
 
-## İçerik
+## Table of Contents
 
-- [Giriş](#giriş)
-- [Özellikler](#özellikler)
-- [Ön koşullar](#ön-koşullar)
-- [Kurulum](#kurulum)
-- [Temel kullanım](#temel-kullanım)
-- [Form verisi alma: serializeObject](#form-verisi-alma-serializeobject)
-- [AJAX yardımcıları](#ajax-yardımcıları)
-- [Global Ajax ayarları](#global-ajax-ayarları)
-- [GlobalConfig yardımcıları](#globalconfig-yardımcıları)
-- [Uyarı ve toast ayarları](#uyarı-ve-toast-ayarları)
-- [Örnekler](#örnekler)
-- [Notlar ve dikkat edilmesi gerekenler](#notlar-ve-dikkat-edilmesi-gerekenler)
+- [Introduction](#introduction)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Basic usage](#basic-usage)
+- [Getting form data: serializeObject](#getting-form-data-serializeobject)
+- [AJAX helpers](#ajax-helpers)
+- [Global AJAX settings](#global-ajax-settings)
+- [GlobalConfig helpers](#globalconfig-helpers)
+- [Alerts and toast settings](#alerts-and-toast-settings)
+- [Examples](#examples)
+- [Notes and considerations](#notes-and-considerations)
 
-## Giriş
+## Introduction
 
-`helper.js`, projelerde tekrar eden işleri tek bir dosyada toplar. Özellikle şunlar için uygundur:
+`helper.js` brings repetitive tasks together in a single file. It is especially useful for:
 
-- form alanlarını obje olarak serialize etme
-- AJAX öncesi butonları pasifleştirme ve tekrar aktif hale getirme
-- Bootstrap modal/offcanvas kapanması
-- sunucu yanıtlarına göre toast mesajları gösterme
-- Select2, DataTables ve Quill için standart konfigürasyonlar üretme
-- Bootstrap tooltip ve focus trap davranışlarını merkezileştirme
+- serializing form fields into an object
+- disabling and re-enabling buttons before and after AJAX requests
+- closing Bootstrap modals/offcanvas elements
+- showing toast messages based on server responses
+- generating standard configurations for Select2, DataTables, and Quill
+- centralizing Bootstrap tooltip and focus trap behavior
 
-Bu dosya, genellikle Laravel, ASP.NET, Node veya statik HTML projelerinde kullanılacak şekilde tasarlanmıştır; temel şart jQuery ve bazı UI kütüphanelerinin yüklenmiş olmasıdır.
+This file is generally designed for use in Laravel, ASP.NET, Node, or static HTML projects; the basic requirement is that jQuery and some UI libraries are loaded.
 
-## Özellikler
+## Features
 
-### 1. Form serialize işlemi
+### 1. Form serialization
 
-`$.fn.serializeObject()` metodu, bir formu JavaScript nesnesine dönüştürür. Aşağıdaki durumları özel olarak ele alır:
+The `$.fn.serializeObject()` method converts a form into a JavaScript object. It specifically handles the following cases:
 
-- checkbox alanları: `true` / `false`
-- radio alanları: seçili olan değeri alır
-- select2 alanları: tek seçim ve çoklu seçim için uygun şekilde işler
-- aynı name’e sahip birden çok alan: dizi olarak toplar
-- hidden companion alanları / checkbox’a eşlik eden alanlar gibi durumları yönetir
+- checkbox fields: `true` / `false`
+- radio fields: gets the selected value
+- Select2 fields: handles both single and multiple selection properly
+- multiple fields with the same `name`: collects them as an array
+- hidden companion fields / checkbox companion fields and similar cases
 
-### 2. AJAX hazırlanma ve tamamlanma yardımcıları
+### 2. AJAX preparation and completion helpers
 
-`$.fn.ajaxHelpers` içinde:
+Inside `$.fn.ajaxHelpers`:
 
-- butonları `data-ajax-setup` üzerinden devre dışı bırakır
-- spinner ekler
-- AJAX bitince eski içeriği geri yükler
-- modal / offcanvas şablonlarını kapatır
+- disables buttons via `data-ajax-setup`
+- adds a spinner
+- restores the previous content after AJAX completes
+- closes modal/offcanvas templates
 
-### 3. Global AJAX yapılandırması
+### 3. Global AJAX configuration
 
-`$.ajaxSetup()` ile şu davranışlar tanımlanır:
+With `$.ajaxSetup()`, the following behaviors are defined:
 
-- CSRF token meta etiketi üzerinden `X-CSRF-TOKEN` headers eklenir
-- `beforeSend` ile buton durumunu yönetir
-- `success` ile sunucu mesajlarını toast olarak gösterir
-- `error` ile hata mesajlarını ayrıştırıp okunabilir biçimde gösterir
+- adds the `X-CSRF-TOKEN` header from the CSRF token meta tag
+- manages button state in `beforeSend`
+- displays server messages as toasts in `success`
+- parses and displays error messages in a readable format in `error`
 
-### 4. GlobalConfig yardımcıları
+### 4. GlobalConfig helpers
 
-`window.GlobalConfig` içinde şunlar tanımlıdır:
+The following are defined in `window.GlobalConfig`:
 
 - `Select2(conf)`
 - `DataTable(conf)`
 - `Quill(conf)`
 - `Bootstrap()`
 
-Bu fonksiyonlar, proje genelinde tutarlı bir tasarım ve davranış sağlar.
+These functions provide consistent design and behavior across the project.
 
-### 5. Bootstrap ve UI standartları
+### 5. Bootstrap and UI standards
 
-- tooltip otomatik başlatma
-- modal/offcanvas focus trap için boş uygulanım
-- DataTable hata modu `none`
+- automatic tooltip initialization
+- empty implementation for modal/offcanvas focus trap behavior
+- DataTable error mode set to `none`
 
-## Ön koşullar
+## Prerequisites
 
-Bu yardımcı dosyayı kullanmak için aşağıdaki bağımlılıkların projede mevcut olması gerekir:
+To use this helper file, the following dependencies must be available in the project:
 
 - jQuery
-- Bootstrap 5 (özellikle tooltip, modal, offcanvas için)
+- Bootstrap 5 (especially for tooltip, modal, and offcanvas)
 - Toastr
-- Select2 (opsiyonel ama serializeObject içinde desteklenir)
-- DataTables (opsiyonel ama yapılandırma fonksiyonu vardır)
-- Quill (opsiyonel ama yapılandırma fonksiyonu vardır)
+- Select2 (optional, but supported in `serializeObject`)
+- DataTables (optional, but a configuration function exists)
+- Quill (optional, but a configuration function exists)
 
-Aşağıdaki örnek, etkin kullanım için gerekli yükleme sırasını gösterir:
+The example below shows the required loading order for active use:
 
 ```html
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -107,30 +107,30 @@ Aşağıdaki örnek, etkin kullanım için gerekli yükleme sırasını gösteri
 <script src="/path/to/helper.js"></script>
 ```
 
-> Not: `X-CSRF-TOKEN` kullanıyorsanız, sayfanızda buna benzer bir meta etiketi olmalıdır:
+> Note: If you are using `X-CSRF-TOKEN`, your page should include a meta tag like this:
 >
 > ```html
-> <meta name="X-CSRF-TOKEN" content="token-degeri">
+> <meta name="X-CSRF-TOKEN" content="token-value">
 > ```
 
-## Kurulum
+## Installation
 
-Projeye bu dosyayı eklemek çok basittir:
+Adding this file to a project is very simple:
 
-1. `helper.js` dosyasını projenizin `assets/js` veya benzeri bir klasörüne taşıyın.
-2. jQuery ve gerekli UI kütüphanelerini sayfaya dahil edin.
-3. `helper.js` dosyasını son script olarak ekleyin.
-4. Gerekirse `window.GlobalConfig` üzerinden özel ayarlar verin.
+1. Move the `helper.js` file into your project's `assets/js` folder or a similar directory.
+2. Include jQuery and the required UI libraries on the page.
+3. Add `helper.js` as the last script.
+4. If needed, provide custom settings via `window.GlobalConfig`.
 
 ```html
 <script src="assets/js/helper.js"></script>
 ```
 
-Dosya otomatik olarak `$` ve `window` ortamında çalışacak şekilde hazırlanmıştır; doğrudan bir `DOMContentLoaded` benzeri başlangıç kodu içerir.
+The file is prepared to work in `$` and `window` contexts automatically; it does not require a direct `DOMContentLoaded`-style initialization code.
 
-## Temel kullanım
+## Basic usage
 
-### 1. Formdan veri alma
+### 1. Getting data from a form
 
 ```html
 <form id="userForm">
@@ -138,7 +138,7 @@ Dosya otomatik olarak `$` ve `window` ortamında çalışacak şekilde hazırlan
   <input type="checkbox" name="isActive" checked>
   <select name="role" class="select2">
     <option value="admin">Admin</option>
-    <option value="editor">Editör</option>
+    <option value="editor">Editor</option>
   </select>
 </form>
 
@@ -148,7 +148,7 @@ Dosya otomatik olarak `$` ve `window` ortamında çalışacak şekilde hazırlan
 </script>
 ```
 
-Çıktı örneği:
+Example output:
 
 ```json
 {
@@ -158,7 +158,7 @@ Dosya otomatik olarak `$` ve `window` ortamında çalışacak şekilde hazırlan
 }
 ```
 
-### 2. AJAX isteği
+### 2. AJAX request
 
 ```javascript
 $.ajax({
@@ -171,15 +171,15 @@ $.ajax({
 });
 ```
 
-Bu çağrı otomatik olarak:
+This call automatically:
 
-- `data-ajax-setup` içeren butonları devre dışı bırakır
-- başarılı/başarısız mesajları toast olarak gösterir
-- AJAX sonrası modal/offcanvas’ları kapatır
+- disables buttons containing `data-ajax-setup`
+- shows success/error messages as toasts
+- closes modal/offcanvas components after AJAX completes
 
-## Form verisi alma: serializeObject
+## Getting form data: serializeObject
 
-`serializeObject` metodunu kullanırken şu unsurları aklınızda tutun:
+Keep the following in mind when using the `serializeObject` method:
 
 ### Checkbox
 
@@ -187,7 +187,7 @@ Bu çağrı otomatik olarak:
 <input type="checkbox" name="status" checked>
 ```
 
-Sonuç:
+Result:
 
 ```json
 { "status": true }
@@ -200,61 +200,61 @@ Sonuç:
 <input type="radio" name="gender" value="female">
 ```
 
-Sonuç:
+Result:
 
 ```json
 { "gender": "male" }
 ```
 
-### Select2 çoklu seçim
+### Select2 multi-select
 
 ```html
 <select name="roles" class="select2" multiple>
-  <option value="1">Yönetici</option>
-  <option value="2">Editör</option>
-  <option value="3">Misafir</option>
+  <option value="1">Administrator</option>
+  <option value="2">Editor</option>
+  <option value="3">Guest</option>
 </select>
 ```
 
-Sonuç:
+Result:
 
 ```json
 { "roles": [1, 2] }
 ```
 
-### Aynı name’e sahip çoklu alan
+### Multiple fields with the same name
 
 ```html
 <input type="text" name="phone[]">
 <input type="text" name="phone[]">
 ```
 
-Sonuç:
+Result:
 
 ```json
 { "phone[]": ["123", "456"] }
 ```
 
-## AJAX yardımcıları
+## AJAX helpers
 
 ### `data-ajax-setup`
 
-Bir butona veya form triggerına bu attribute eklenince, `$.ajaxSetup` ile otomatik olarak işlenir:
+When this attribute is added to a button or form trigger, it is processed automatically via `$.ajaxSetup`:
 
 ```html
-<button type="submit" data-ajax-setup>Kaydet</button>
+<button type="submit" data-ajax-setup>Save</button>
 ```
 
-Bu buton bulunduğunda:
+When this button is present:
 
-- `disabled` atanır
-- içerik kaydedilir
-- spinner yerleştirilir
-- AJAX tamamlandığında eski metin geri gelir
+- it gets the `disabled` attribute
+- its content is saved
+- a spinner is inserted
+- the original text is restored after AJAX completes
 
-### `beforeSend` ve `complete`
+### `beforeSend` and `complete`
 
-Helper dosyası otomatik olarak şunları yapar:
+The helper file automatically performs the following:
 
 ```javascript
 $.fn.ajaxHelpers.beforeSend.setButtonContent();
@@ -262,11 +262,11 @@ $.fn.ajaxHelpers.complete.setButtonContent();
 $.fn.ajaxHelpers.complete.closeBootstrapComponents();
 ```
 
-Bu işlevler, AJAX isteklerinde UI gereksinimlerini standartlaştırır.
+These functions standardize UI requirements during AJAX requests.
 
-## Global Ajax ayarları
+## Global AJAX settings
 
-`$.ajaxSetup` içinde tanımlı davranışlar şu şekildedir:
+The behaviors defined inside `$.ajaxSetup` are as follows:
 
 ```javascript
 $.ajaxSetup({
@@ -280,9 +280,9 @@ $.ajaxSetup({
     const { result, message, entity } = response;
     if (message) {
       if (result) {
-        toastr.success(message, "Başarılı");
+        toastr.success(message, "Success");
       } else {
-        toastr.error(message, "Hata");
+        toastr.error(message, "Error");
       }
     }
   },
@@ -291,51 +291,51 @@ $.ajaxSetup({
     $.fn.ajaxHelpers.complete.closeBootstrapComponents();
   },
   error: function (xhr, status, error, thrownError) {
-    // hata mesajı parse edilir
+    // error message is parsed
   }
 });
 ```
 
-### Sunucu cevabı beklenen yapısı
+### Expected server response structure
 
-Başarılı ya da hatalı cevaplarda aşağıdaki format kullanılabilir:
+Successful and failed responses can use the following format:
 
 ```json
 {
   "result": true,
-  "message": "İşlem başarılı şekilde tamamlandı."
+  "message": "The operation was completed successfully."
 }
 ```
 
-veya
+or
 
 ```json
 {
   "result": false,
-  "message": "İşlem sırasında hata meydana geldi."
+  "message": "An error occurred while processing the request."
 }
 ```
 
-### Hata URL ve detay ayrımı
+### Error URL and detail separation
 
-Kod, `xhr.responseJSON.message` ve `xhr.responseJSON.detail` varsa bunları kullanır. `detail` varsa bunu başlık, `message` ise açıklama olarak gösterir.
+The code uses `xhr.responseJSON.message` and `xhr.responseJSON.detail` if they exist. If `detail` exists, it is shown as the title and `message` is used as the description.
 
-## GlobalConfig yardımcıları
+## GlobalConfig helpers
 
-`window.GlobalConfig` üzerinden stil ve davranış standartları tanımlanır.
+Style and behavior standards are defined via `window.GlobalConfig`.
 
 ### `GlobalConfig.Select2(conf)`
 
 ```javascript
 const selectConfig = GlobalConfig.Select2({
-  placeholder: 'Seçim yapın',
+  placeholder: 'Select an option',
   multiple: true
 });
 
 $('.my-select').select2(selectConfig);
 ```
 
-Ön tanımlı değerler:
+Default values:
 
 - `width: "100%"`
 - `allowClear: true`
@@ -356,7 +356,7 @@ $('#usersTable').DataTable(GlobalConfig.DataTable({
 }));
 ```
 
-Ön tanımlı ayarlar:
+Default settings:
 
 - `dom: 'Blfrtip'`
 - `responsive: true`
@@ -366,28 +366,28 @@ $('#usersTable').DataTable(GlobalConfig.DataTable({
 - `ordering: false`
 - `lengthMenu: [25, 50, 75, 100]`
 - `pageLength: 25`
-- Türkçe metinler içeren `language` objesi
+- `language` object containing Turkish text
 
 ### `GlobalConfig.Quill(conf)`
 
 ```javascript
 const quill = new Quill('#editor', GlobalConfig.Quill({
-  placeholder: 'Metin yazın...'
+  placeholder: 'Write your text...'
 }));
 ```
 
-Bu yapılandırma, Quill için snow tema ve zengin toolbar listesi içerir.
+This configuration includes the snow theme and a rich toolbar list for Quill.
 
 ### `GlobalConfig.Bootstrap()`
 
-Bu fonksiyon şunları init eder:
+This function initializes:
 
-- `data-bs-toggle="tooltip"` için tooltip oluşturur
-- modal/offcanvas focus trap davranışını boş işlevlerle geçersiz kılar
+- tooltips for `data-bs-toggle="tooltip"`
+- modal/offcanvas focus trap behavior by overriding it with empty functions
 
-## Uyarı ve toast ayarları
+## Alerts and toast settings
 
-Toastr global olarak aşağıdaki ayarlarla başlatılır:
+Toastr is initialized globally with the following settings:
 
 ```javascript
 toastr.options = {
@@ -408,24 +408,24 @@ toastr.options = {
 };
 ```
 
-### Kullanım örnekleri
+### Usage examples
 
 ```javascript
-toastr.success('Kayıt başarılı.', 'Başarılı');
-toastr.error('Bir hata oluştu.', 'Hata');
-toastr.info('Bilgi mesajı');
-toastr.warning('Uyarı mesajı');
+toastr.success('Registration successful.', 'Success');
+toastr.error('An error occurred.', 'Error');
+toastr.info('Information message');
+toastr.warning('Warning message');
 ```
 
-## Örnekler
+## Examples
 
-### Örnek 1: Form submit ve AJAX gönderimi
+### Example 1: Form submit and AJAX submission
 
 ```html
 <form id="customerForm">
-  <input type="text" name="full_name" placeholder="Ad Soyad">
-  <input type="email" name="email" placeholder="E-posta">
-  <button type="submit" data-ajax-setup>Gönder</button>
+  <input type="text" name="full_name" placeholder="Full name">
+  <input type="email" name="email" placeholder="Email">
+  <button type="submit" data-ajax-setup>Send</button>
 </form>
 
 <script>
@@ -437,18 +437,18 @@ toastr.warning('Uyarı mesajı');
       type: 'POST',
       data: $(this).serializeObject(),
       success: function (response) {
-        console.log('Başarılı', response);
+        console.log('Success', response);
       }
     });
   });
 </script>
 ```
 
-### Örnek 2: Select2 + DataTable
+### Example 2: Select2 + DataTable
 
 ```javascript
 $('.select2-search').select2(GlobalConfig.Select2({
-  placeholder: 'Kullanıcı seçin'
+  placeholder: 'Select a user'
 }));
 
 $('#usersTable').DataTable(GlobalConfig.DataTable({
@@ -461,39 +461,39 @@ $('#usersTable').DataTable(GlobalConfig.DataTable({
 }));
 ```
 
-### Örnek 3: Quill editörü
+### Example 3: Quill editor
 
 ```html
 <div id="editor"></div>
 
 <script>
   const editor = new Quill('#editor', GlobalConfig.Quill({
-    placeholder: 'İçeriğinizi yazın...'
+    placeholder: 'Write your content...'
   }));
 </script>
 ```
 
-## Notlar ve dikkat edilmesi gerekenler
+## Notes and considerations
 
-- Dosya, jQuery ve Bootstrap gibi kütüphanelerin yüklenmesini bekler.
-- CSRF token kullanıyorsanız `meta[name='X-CSRF-TOKEN']` alanı zorunludur.
-- `serializeObject` içinde `select2-hidden-accessible` sınıfı ve `select2('val')` kullanımı mevcuttur; bu yüzden Select2’nin yüklü olması gerekir.
-- `DataTable` konfigürasyonu `serverSide: true` olarak tanımlanmıştır; bunun anlamı, verilerinizin sunucudan gelmesi gerektiğidir.
-- `window.GlobalConfig.Bootstrap()` sayfa yüklendikten hemen sonra otomatik çalışır.
-- `helper.js` tarafında `console.log(xhr, status, error, thrownError)` yazdırması vardır; geliştirme sırasında hata izlemeyi kolaylaştırır.
+- The file expects jQuery and Bootstrap-like libraries to be loaded.
+- If you use CSRF tokens, the `meta[name='X-CSRF-TOKEN']` field is required.
+- `serializeObject` uses the `select2-hidden-accessible` class and `select2('val')`; therefore Select2 must be loaded.
+- The DataTable configuration is defined with `serverSide: true`, which means your data must come from the server.
+- `window.GlobalConfig.Bootstrap()` runs automatically immediately after the page loads.
+- `helper.js` contains `console.log(xhr, status, error, thrownError)` for easier debugging during development.
 
-## Sonuç
+## Conclusion
 
-`helper.js`, web uygulamalarında sık tekrarlanan işlemleri tek bir yerde toplamayı hedefler. Özellikle şu senaryolarda faydalıdır:
+`helper.js` aims to centralize common recurring operations in web applications. It is especially useful for:
 
-- admin panelleri
-- CRUD ekranları
-- kurumsal web arayüzleri
-- hızlı prototip geliştirme
-- jQuery tabanlı UI uygulamaları
+- admin panels
+- CRUD screens
+- corporate web interfaces
+- rapid prototyping
+- jQuery-based UI applications
 
-Bu dosya, projeye eklenince bir nevi temel çalışma aracı gibi davranır; her projede benzer mantık tekrar tekrar yazılmak yerine tek bir standart sunar.
+Once added to a project, this file acts like a core utility layer; instead of rewriting the same logic in every project, it provides one standard approach.
 
-## Lisans ve kullanım
+## License and usage
 
-Bu dosya, projenize göre uyarlanabilir bir yardımcı kod parçasıdır. Kendi projelerinizde özgürce kullanabilir, gerektiğinde özelleştirebilir ve geliştirebilirsiniz.
+This file is a helper code snippet that can be adapted to fit your project. You are free to use it in your own projects, customize it when needed, and improve it as required.
